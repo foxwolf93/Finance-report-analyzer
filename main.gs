@@ -72,10 +72,11 @@ function createFinancialReport() {
     Logger.log("Starting moving rows")
     for (let i = 0; i <= numColumns; i++) {
         Logger.log(cardTypes[i][0])
-        let targetSheet = activeSpreadsheet.getSheetByName(cards[i][0])
+        let targetSheet = activeSpreadsheet.getSheetByName(cardTypes[i][0])
+        Logger.log(targetSheet)
         let source = sheet.getRange(i + 2, 1, 1, numColumns).getValues()
         Logger.log(source)
-        let sourceLine = Array.from({length: 100})
+        let sourceLine = Array.from({length: 10})
         for (let i = 0; i <= numRows; i++) {
             sourceLine[i] = source[0][i]
         }
