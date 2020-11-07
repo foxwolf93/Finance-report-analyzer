@@ -5,11 +5,11 @@ function onlyUnique(value, index, self) {
 function createFinancialReport() {
     let activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet()
     let sheet = SpreadsheetApp.getActiveSheet()
-    const lastRow = 100
+    const numRows = 100
     const numColumns = 10
     let comment = sheet.getRange("List!D2:D").getValues()
     let cards = sheet.getRange("List!B2:B").getValues()
-    let cardsUnique = sheet.getRange(2, 2, lastRow, 1).getValues().join().split(",").filter(onlyUnique)
+    let cardsUnique = sheet.getRange(2, 2, numRows, 1).getValues().join().split(",").filter(onlyUnique)
     Logger.log(cardsUnique)
     const dict = {
         'Яндекс.Драйв':'Каршеринг',
@@ -38,7 +38,7 @@ function createFinancialReport() {
         '*8711': 'mobile',
         '': 'empty'
     }
-    for (let i = 0; i <= numColumns; i++) {
+    for (let i = 0; i <= numRows; i++) {
         for (let key in dict) {
             if (comment[i][0].indexOf(key) > -1) {
                 sheet.getRange(i + 2, 5).setValue(dict[key])
@@ -47,14 +47,14 @@ function createFinancialReport() {
         }
     }
     Logger.log("Starting card nums processing")
-    for (let i = 0; i <= numColumns; i++) {
+    for (let i = 0; i <= numRows; i++) {
         if (cards[i][0] in cardDict) {
             Logger.log(cards[i][0])
             Logger.log(cardDict[cards[i][0]])
             sheet.getRange(i + 2, 2).setValue(cardDict[cards[i][0]])
         }
     }
-    let cardTypesUnique = sheet.getRange(2, 2, lastRow, 1).getValues().join().split(",").filter(onlyUnique)
+    let cardTypesUnique = sheet.getRange(2, 2, numRows, 1).getValues().join().split(",").filter(onlyUnique)
     for (let cardN in cardTypesUnique) {
         let yourNewSheet = activeSpreadsheet.getSheetByName("Name of your new sheet")
         if (yourNewSheet != null) {
@@ -70,7 +70,7 @@ function createFinancialReport() {
     }
     let cardTypes = sheet.getRange("List!B2:B").getValues()
     Logger.log("Starting moving rows")
-    for (let i = 0; i <= numColumns; i++) {
+    for (let i = 0; i <= numRows; i++) {
         Logger.log(cardTypes[i][0])
         let targetSheet = activeSpreadsheet.getSheetByName(cards[i][0])
         let source = sheet.getRange(i + 2, 1, 1, numColumns).getValues()
